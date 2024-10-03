@@ -37,22 +37,42 @@ const App: React.FC = () => {
   }, [transactions, startDate, endDate]);
 
   return (
-    <div className="App">
-      <h1>Payment Transaction Dashboard</h1>
-      {error && <p className="error">{error}</p>}
-      <div>
-        <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-        <label>End Date:</label>
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+    <div className="App container bg-dark text-light h-auto p-5 rounded-5">
+      <div className="border-bottom mb-5">
+        <h1 className="display-1 mb-5">Payment Transaction Dashboard</h1>
       </div>
-      <ul>
+
+      {error && <p className="error">{error}</p>}
+      <div className="d-flex gap-5 bg-secondary bg-gradient text-light p-3 rounded-4 my-4">
+        <div>
+          <label className='fs-6 p-2'>Start Date:</label>
+          <input className='p-2 rounded-2' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        </div>
+        <div>
+          <label className='fs-6 p-2'>End Date:</label>
+          <input className='p-2 rounded-2' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        </div>
+
+      </div>
+      <div className="container my-4" style={{ maxHeight: '300px', overflowY: 'auto' }}>
         {filteredTransactions.map((transaction) => (
-          <li key={transaction.id}>
-            <strong>{transaction.description}</strong> - {format(parseISO(transaction.date), 'MMM dd, yyyy')} - ${transaction.amount.toFixed(2)}
-          </li>
+          <div key={transaction.id} className="card mb-3 shadow-sm">
+            <div className="card-body d-flex justify-content-between align-items-center">
+              <div>
+                <h5 className="card-title mb-1">{transaction.description}</h5>
+                <p className="card-text text-muted small">
+                  {format(parseISO(transaction.date), 'MMM dd, yyyy')}
+                </p>
+              </div>
+              <div className="text-end">
+                <span className="badge bg-success fs-5">
+                  ${transaction.amount.toFixed(2)}
+                </span>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
